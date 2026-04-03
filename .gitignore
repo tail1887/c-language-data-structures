@@ -1,0 +1,5 @@
+# Local gcc outputs in DevContainer (basename matches .c, no extension)
+Data-Structures/Linked_List/Q*_A_LL
+Data-Structures/Stack_and_Queue/Q*_C_SQ
+Data-Structures/Binary_Tree/Q*_E_BT
+Data-Structures/Binary_Search_Tree/Q*_F_BST

@@ -104,6 +104,34 @@ int main()
 void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2)
 {
     /* add your code here */
+	ListNode *cur1 = ll1->head; //첫 번째 리스트의 현재 노드
+	ListNode *cur2 = ll2->head; //두 번째 리스트의 현재 노드
+	int merged = 0; //두 리스트를 병합하면서 삽입된 노드의 개수(사이즈계산용 변수)
+
+	while (cur1 != NULL && cur2 != NULL) {
+		ListNode *k = cur1->next; 
+		ListNode *v = cur2->next; 
+		if (k != NULL) { //첫 번째 리스트의 다음 노드가 있을 때
+			cur1->next = cur2; //첫 번째 리스트의 현재 노드의 다음 노드를 두 번째 리스트의 현재 노드로 설정
+			cur2->next = k; //두 번째 리스트의 현재 노드의 다음 노드를 첫 번째 리스트의 다음 노드로 설정
+			merged++; //삽입된 노드의 개수 증가
+			cur1 = k; //첫 번째 리스트의 현재 노드를 첫 번째 리스트의 다음 노드로 설정
+			cur2 = v; //두 번째 리스트의 현재 노드를 두 번째 리스트의 다음 노드로 설정
+		} else { //첫 번째 리스트의 다음 노드가 없을 때
+			ll2->head = cur2; //두 번째 리스트의 현재 노드를 두 번째 리스트의 헤드로 설정
+			ll2->size = 0; //두 번째 리스트의 크기를 0으로 설정
+			for (ListNode *t = cur2; t != NULL; t = t->next) //두 번째 리스트의 크기를 계산
+				ll2->size++; //두 번째 리스트의 크기를 증가
+			ll1->size += merged; //첫 번째 리스트의 크기를 삽입된 노드의 개수만큼 증가
+			return;
+		}
+	}
+	/* 만약 ll2를 먼저 다 썼을 때 ll2 비움 (ll1이 처음부터 비어 while 미진입인 경우는 건드리지 않음) */
+	if (cur2 == NULL) {
+		ll2->head = NULL;
+		ll2->size = 0;
+		ll1->size += merged;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

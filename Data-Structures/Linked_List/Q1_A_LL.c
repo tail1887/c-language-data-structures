@@ -91,6 +91,23 @@ int main()
 int insertSortedLL(LinkedList *ll, int item)
 {
 	/* add your code here */
+	// 입력 받은 정수가 정렬된 연결리스트에 중간에 들어갈 위치를 찾고 중복이있으면 -1 반환
+	ListNode *cur = ll->head;
+	int index = 0;
+	while (cur != NULL) {
+		if (cur->item == item) {
+			return -1;
+		}
+		if (cur->item > item) {
+			break;
+		}
+		index++;
+		cur = cur->next;
+	}
+
+	// 찾은 위치에 삽입하고 그 인덱스 위치를 반환함
+	insertNode(ll, index, item);
+	return index;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

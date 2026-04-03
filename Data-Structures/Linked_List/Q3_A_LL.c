@@ -87,6 +87,38 @@ int main()
 void moveOddItemsToBack(LinkedList *ll)
 {
 	/* add your code here */
+	// 주어진 연결리스트에서 모든 홀수를 뒤로 보내기
+	// 우선 뒤의 연결리스트를 만들고 홀수가 나올때마다 그 노드를 연결리스트에서 없앤다
+	// 뒤에 붙일 연결리스트
+	ListNode *odd = NULL;
+	// 더미 노드
+	ListNode dummy;
+	dummy.item = 0; 
+	dummy.next = ll->head;
+
+	// 현재 노드의 이전 노드
+	ListNode *pre = &dummy;
+	// 현재 노드
+	ListNode *cur = ll->head; // 현재 노드
+	
+	// 연결리스트 순회
+	while(cur != NULL){
+		if(cur->item % 2 != 0){ // 홀수 노드일 때
+			odd = cur; // 홀수 노드를 뒤에 붙임
+			pre->next = cur->next; // 현재 노드의 다음 노드를 이전 노드의 다음 노드로 설정
+			cur = cur->next; // 현재 노드를 다음 노드로 이동
+		} else { // 짝수 노드일 때
+			pre = cur; // 현재 노드를 이전 노드로 설정
+			cur = cur->next; // 현재 노드를 다음 노드로 이동
+		}
+	}
+	// 뒤에 붙일 연결리스트 순회
+	cur = odd;
+	while(cur != NULL){
+		cur = cur->next;
+	}
+	cur->next = ll->head;
+	ll->head = odd;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
