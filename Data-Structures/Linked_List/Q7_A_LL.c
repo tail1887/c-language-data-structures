@@ -88,6 +88,20 @@ int main()
 void RecursiveReverse(ListNode **ptrHead)
 {
 	/* add your code here */
+	//문제 분석 
+	// 
+	// 재귀 3단계
+	// 1. 기저 조건: 노드가 없거나 하나인 경우 그대로 반환
+	if(*ptrHead == NULL || (*ptrHead)->next == NULL) {
+		return;
+	}
+	// 2. 재귀 호출: 다음 노드를 재귀 호출하여 뒤집음
+	ListNode *rest = (*ptrHead)->next;
+	RecursiveReverse(&rest);
+	// 3. 연결: 뒤집힌 꼬리의 끝(원래 두 번째 노드)이 옛 머리를 가리키게
+	rest->next = *ptrHead;
+	rest->next = NULL; /* 옛 머리의 next 끊기 — 없으면 순환 */
+	*ptrHead = rest;
 }
 
 //////////////////////////////////////////////////////////////////////////////////

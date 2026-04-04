@@ -86,39 +86,59 @@ int main()
 
 void moveOddItemsToBack(LinkedList *ll)
 {
-	/* add your code here */
-	// 주어진 연결리스트에서 모든 홀수를 뒤로 보내기
-	// 우선 뒤의 연결리스트를 만들고 홀수가 나올때마다 그 노드를 연결리스트에서 없앤다
-	// 뒤에 붙일 연결리스트
-	ListNode *odd = NULL;
-	// 더미 노드
+	/* 더미 헤드: 머리 노드가 홀수여도 pre->next 로 똑같이 뺄 수 있게 함 */
 	ListNode dummy;
-	dummy.item = 0; 
-	dummy.next = ll->head;
+	/* pre: 짝수 쪽에서 "마지막으로 확정된" 노드(또는 더미) */
+	ListNode *pre, *cur, *next; 
+	/* 뺀 홀수들만 모아 둔 부분 리스트 */
+	ListNode *oddHead, *oddTail; // 머리는 앞부분 저장, 꼬리는 뒷부분 순회용
 
-	// 현재 노드의 이전 노드
-	ListNode *pre = &dummy;
-	// 현재 노드
-	ListNode *cur = ll->head; // 현재 노드
-	
-	// 연결리스트 순회
-	while(cur != NULL){
-		if(cur->item % 2 != 0){ // 홀수 노드일 때
-			odd = cur; // 홀수 노드를 뒤에 붙임
-			pre->next = cur->next; // 현재 노드의 다음 노드를 이전 노드의 다음 노드로 설정
-			cur = cur->next; // 현재 노드를 다음 노드로 이동
-		} else { // 짝수 노드일 때
-			pre = cur; // 현재 노드를 이전 노드로 설정
-			cur = cur->next; // 현재 노드를 다음 노드로 이동
+	if (ll == NULL)
+		return;
+
+	dummy.next = ll->head;
+	pre = &dummy;
+	cur = dummy.next;
+	oddHead = NULL;
+	oddTail = NULL;
+
+	/* 본래 순서 유지: 앞에서부터 스캔하며 홀수는 본 줄에서 제거, 짝수만 dummy 뒤 체인에 남김 */
+	while (cur != NULL) {
+		if (cur->item % 2 != 0) {
+			next = cur->next;
+			pre->next = next; /* 홀수 cur 를 본 줄에서 분리 */
+			if (oddHead == NULL) {
+				oddHead = cur;
+				oddTail = cur;
+			} else {
+				oddTail->next = cur;
+				oddTail = cur;
+			}
+			oddTail->next = NULL;
+			cur = next; /* pre 는 그대로: 다음 후보 앞까지 짝수가 확정되지 않았으면 유지 */
+		} else {
+			pre = cur;
+			cur = cur->next;
 		}
 	}
-	// 뒤에 붙일 연결리스트 순회
-	cur = odd;
-	while(cur != NULL){
-		cur = cur->next;
+
+	/* 홀수가 하나도 없었음 */
+	if (oddHead == NULL) {
+		ll->head = dummy.next;
+		return;
 	}
-	cur->next = ll->head;
-	ll->head = odd;
+	/* 짝수가 하나도 없었음 → 전부 홀수만 남김 */
+	if (dummy.next == NULL) {
+		ll->head = oddHead;
+		return;
+	}
+
+	/* 짝수 블록 끝에 홀수 블록 통째로 연결, 머리는 짝수 첫 노드 */
+	ll->head = dummy.next;
+	cur = ll->head;
+	while (cur->next != NULL)
+		cur = cur->next;
+	cur->next = oddHead;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
