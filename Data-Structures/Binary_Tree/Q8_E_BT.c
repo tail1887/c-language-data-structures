@@ -51,7 +51,7 @@ void removeAll(BTNode **node);
 int main()
 {
     char e;
-    int c,value;
+    int c;
     BTNode *root;
 
     c = 1;
@@ -100,9 +100,25 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
+static int edgesToDeepestLeaf(BTNode *node)
+{
+    if (node == NULL)
+        return -1;
+    int lh = edgesToDeepestLeaf(node->left);
+    int rh = edgesToDeepestLeaf(node->right);
+    return 1 + (lh > rh ? lh : rh);
+}
+
 int hasGreatGrandchild(BTNode *node)
 {
 	/* add your code here */
+    if (node == NULL)
+        return 0;
+    if (edgesToDeepestLeaf(node) >= 3)
+        printf("%d ", node->item);
+    hasGreatGrandchild(node->left);
+    hasGreatGrandchild(node->right);
+    return 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////////

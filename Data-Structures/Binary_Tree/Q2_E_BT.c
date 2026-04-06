@@ -70,8 +70,10 @@ int main()
                 printf("\n");
                 break;
             case 2:
-                c = maxHeight(root);
-                printf("The maximum height of the binary tree is: %d\n",c);
+                {
+                    int height = maxHeight(root);
+                    printf("The maximum height of the binary tree is: %d\n", height);
+                }
                 removeAll(&root);
                 break;
             case 0:
@@ -98,6 +100,17 @@ int maxHeight(BTNode *node)
 
 {
     /* add your code here */
+    // 가장 높은 높이를 반환하는 함수
+    //만약 노그가 비어있으면 0을 반환
+    //노드가 비어있지 않으면 왼쪽 서브트리와 오른쪽 서브트리의 높이를 비교하여 더 큰 값을 반환
+    //높이는 1을 더하여 반환
+    if(node == NULL)
+    {
+        return 0;
+    }
+    int leftHeight = maxHeight(node->left);
+    int rightHeight = maxHeight(node->right);
+    return (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

@@ -117,6 +117,19 @@ int identical(BTNode *tree1, BTNode *tree2)
 
 {
    /* add your code here */
+   if(tree1 == NULL && tree2 == NULL) // 만약 두 트리가 모두 NULL이면 1을 반환
+   {
+    return 1;
+   }
+   if(tree1 == NULL || tree2 == NULL) // 만약 두 트리 중 하나가 NULL이면 0을 반환
+   {
+    return 0;
+   }
+   if(tree1->item != tree2->item) // 만약 두 트리의 루트 노드가 다르면 0을 반환
+   {
+    return 0;
+   }
+   return identical(tree1->left, tree2->left) && identical(tree1->right, tree2->right); // 만약 두 트리의 루트 노드가 같다면 왼쪽 서브트리와 오른쪽 서브트리를 비교
 }
 
 /////////////////////////////////////////////////////////////////////////////////
